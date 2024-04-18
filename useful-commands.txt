@@ -1,0 +1,17 @@
+1. sudo -i -u postgres --> to switch the current user context to the default postgres user. Once done with postgres, press Ctrl+D to switch back to linux user.
+
+
+psql -U yourusername -h 127.0.0.1 postgres
+
+
+
+sudo -u postgres psql --> To connect to postgres default database.
+
+
+Commands within the postgres=# prompt:
+
+\du --> list of users
+
+
+sudo -u postgres psql -d postgres -f '/mnt/c/Temp/flight_database/flight_database.sql'
+CG Discussion on above: https://chat.openai.com/c/21bc6172-f6bc-4b41-abc2-13d9ceb8e496
