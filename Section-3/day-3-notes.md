@@ -64,3 +64,5 @@ ORDER BY ROUND(AVG(AMOUNT)) DESC;
 ```
 
 - Second project introduced at this point in the Course - Flight Database. NOTE: Not adding the sql to git repo due to hits huge size. But check out the GDrive folder to get the sql if required in future.
+
+- [Day 3 SQL](https://github.com/vishpant76/15-days-postgres/blob/main/Section-3/day-3-sql.sql)
