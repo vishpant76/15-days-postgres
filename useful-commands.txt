@@ -3,6 +3,7 @@
 
 psql -U yourusername -h 127.0.0.1 postgres
 
+sudo service postgresql status
 
 
 sudo -u postgres psql --> To connect to postgres default database.
