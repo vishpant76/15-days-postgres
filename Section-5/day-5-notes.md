@@ -57,3 +57,13 @@ FROM
 GROUP BY
   is_late;
 ```
+
+- Coding Exercise 19: On CASE WHEN
+
+![EYSznAOOvf](https://github.com/vishpant76/15-days-postgres/assets/18080911/3aad1a4c-3a39-4224-8ae0-10702f9081f8)
+
+---
+
+- CASE When - Challenge - Refer to the [Part 1 - SQL File]() for the challenge details. The instructor's solution were slightly better. Note that in the last challenge, **in the WHERE clause, the entire CASE statement had to be used instead of the alias to remove the NULLs from the result set because WHERE is processed before the aliases so we must use the entire statement in WHERE if we want to apply that condition**.
+
+- 
