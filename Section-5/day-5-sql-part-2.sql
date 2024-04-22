@@ -44,4 +44,15 @@ from rental
 order by rental_date desc;
 
 -- REPLACE
+-- select passenger_id from tickets;
 select replace(passenger_id, ' ', '')
+from tickets;
+
+-- select flight_no from flights;
+select replace(flight_no, 'PG', '')
+from flights;
+
+-- Using REPLACE WITH CAST
+select
+cast(replace(flight_no, 'PG', '') AS INT)
+from flights;
