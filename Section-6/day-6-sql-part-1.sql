@@ -87,4 +87,82 @@ ON s.seat_no = b.seat_no
 group by RIGHT(s.seat_no, 1)
 order by count(*) desc;
 
--- 
+/*
+For the first part of the challenge we verified that there is at least a 1:1 correspondance between a seat in seats and being used via the boarding passes.  (That is, if a seat exists in seats it is used at least once in the boarding passes).
+
+However, when you go to count up the most popular "lines" (A,B,C, etc...) the numbers you get far exceed the numbers in the boarding passes table.  There can't be more choices that have been made than the number of boarding passes processed.
+
+
+As an example:
+
+SELECT COUNT(*)
+
+FROM boarding_passes
+
+WHERE seat_no = '1A'
+
+
+
+Gives me 5951
+
+The below one:
+
+SELECT
+
+s.seat_no,
+
+COUNT(*)
+
+FROM seats s
+
+LEFT JOIN boarding_passes bp
+
+ON s.seat_no = bp.seat_no
+
+WHERE s.seat_no = '1A'
+
+GROUP BY s.seat_no
+
+Should count all the occurrences of 1A in the merged table.  This gives me 53559 occurrences, but we have only 5951 boarding passes with 1A as the seat assignment!  What seems to be going on is we have multiple seat numbers of the same type (1A) for at least some of the aircraft codes, and the boarding_passes table only lists the seat number, which multiplies the seats of that type in the boarding_passes table:
+
+SELECT COUNT(*)
+
+FROM seats
+
+WHERE seat_no = '1A'
+
+(This is 9)
+
+9*5951 from above = 53559 (Which is the number of seats I get back from the joined table)
+*/
+
+/*
+Need to check the authenticity of the below:
+
+select s.seat_no, count(*)
+
+
+
+from seats as s
+
+left join boarding_passes as b
+
+on s.seat_no = b.seat_no
+
+left join flights as f
+
+on f.flight_id = b.flight_id
+
+
+
+where s.aircraft_code = f.aircraft_code
+
+
+
+group by s.seat_no
+
+order by count(s.seat_no) desc
+
+
+This would actually give you the correct results.
+*/
