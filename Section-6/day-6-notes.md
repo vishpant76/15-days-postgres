@@ -59,4 +59,12 @@ ON a.aircraft_code = f.aircraft_code
 where f.aircraft_code is null;
 ```
 
+- Challenge: Which seat has been chosen most frequently? All seats should be included even if they have never been chosen before. Are there seats that have never been booked before? Refer [day-6-sql-part-1](https://github.com/vishpant76/15-days-postgres/blob/main/Section-6/day-6-sql-part-1.sql) sql file for the solutions discussed in video, but they are wrong solutions. Refer the comments in the end of the file for more on this. Skipping for now, may be get back later. All this data is present in the demo database (flights).
+
+- RIGHT JOIN: All of the data rows from the second (right) table included, and the data exclusive to left table will not be included.
+
+![image](https://github.com/vishpant76/15-days-postgres/assets/18080911/91b2e7b0-41ab-4ea4-be7e-056846e03d9c)
+
+---
+
 - 
