@@ -37,3 +37,60 @@ select * from address a
 left join customer c
 on c.address_id = a.address_id
 where c.customer_id is null;
+
+
+-- SELECT *
+-- FROM information_schema.columns
+-- WHERE table_name = 'ticket_flights';
+
+-- Joins on multiple conditions
+-- select * from ticket_flights;
+-- select * from boarding_passes;
+-- Get the average price (amount) for the different seat_no. Using inner join here, but this could probably also be solved with LEFT JOIN as instructor showed in video. But wonder how the null records would influence the average?
+select seat_no, round(avg(amount), 2)
+from ticket_flights t
+inner join boarding_passes b
+on t.ticket_no=b.ticket_no AND t.flight_id=b.flight_id
+group by seat_no
+order by 2 desc;
+
+
+-- JOINING MULTIPLE TABLES
+-- We want to have passenger name, and scheduled departure in the data.	
+select * from tickets;
+select * from flights;
+select * from ticket_flights;
+select * from boarding_passes;
+
+-- select ticket_no, passenger_name, scheduled_departure, scheduled_arrival
+select t.ticket_no, tf.flight_id, t.passenger_name, f.scheduled_departure, f.scheduled_arrival from tickets t
+inner join ticket_flights tf
+on t.ticket_no = tf.ticket_no
+inner join flights f
+on f.flight_id = tf.flight_id;
+
+-- Challenge
+-- Which customers are from Brazil? Get the first, lastname, email, country for all customers of Brazil.
+select * from customer where address_id is null;
+-- select * from address;
+-- select * from country;
+-- select * from city;
+
+select first_name, last_name, email, country from customer c
+inner join address a
+on a.address_id = c.address_id
+inner join city ci
+on ci.city_id = a.city_id
+inner join country co
+on co.country_id = ci.country_id
+where country='Brazil';
+
+-- ALITER for above: Using LEFT JOIN - to ensure that we have all customers.
+select first_name, last_name, email, country from customer c
+left join address a
+on a.address_id = c.address_id
+left join city ci
+on ci.city_id = a.city_id
+left join country co
+on co.country_id = ci.country_id
+where country='Brazil';
