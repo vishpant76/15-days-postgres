@@ -67,4 +67,35 @@ where f.aircraft_code is null;
 
 ---
 
-- 
+- Multiple Join conditions: A tip on performance issues: Using AND in a JOIN to have multiple join conditions is faster than using a simple WHERE.
+
+![image](https://github.com/vishpant76/15-days-postgres/assets/18080911/fb6c15d7-5c42-441e-a152-0a80817c564c)
+
+---
+
+- Postgres supports the concept of composite primary keys in tables, i.e. the primary consists of multiple columns. See [here](https://chat.openai.com/c/8bb0761e-fd59-4abe-9f39-1af256071f24) for more.
+
+- Get the average price (amount) for the different seat_no. Using inner join here, but this could probably also be solved with LEFT JOIN as instructor showed in video. But wonder how the null records would influence the average??
+```
+SELECT
+  seat_no,
+  ROUND(AVG(amount), 2)
+FROM
+  ticket_flights t
+  INNER JOIN boarding_passes b ON t.ticket_no=b.ticket_no
+  AND t.flight_id=b.flight_id
+GROUP BY
+  seat_no
+ORDER BY
+  2 desc;
+```
+
+- Joining Multiple tables: If using INNER JOIN between multiple tables, table order doesn't matter.
+
+![image](https://github.com/vishpant76/15-days-postgres/assets/18080911/7f58e0ee-c154-4d0c-9b8c-0b8a4cc4c9bf)
+
+--- 
+
+- But the order matters in case of LEFT/RIGHT outer JOIN between multiple tables.
+
+- JOINS challenge: Which customers are from Brazil? Get the first, lastname, email, country for all customers of Brazil. See the [day-6-sql-part-2](https://github.com/vishpant76/15-days-postgres/blob/main/Section-6/day-6-sql-part-2.sql) file for solution. It doesn't matter if you use INNER or LEFT join here as there are no customers that do not have an associated address_id. Refer [this discussion](https://chat.openai.com/c/17ef4d20-b5ae-4b22-aa10-8d14c0d8dfc1) for more.
