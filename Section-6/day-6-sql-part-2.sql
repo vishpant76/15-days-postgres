@@ -94,3 +94,48 @@ on ci.city_id = a.city_id
 left join country co
 on co.country_id = ci.country_id
 where country='Brazil';
+
+
+-- MORE CHALLENGES
+-- 1. Which passenger (passenger_name) has spent most amount in their bookings (total_amount)?
+-- select * from bookings;
+-- select * from tickets;
+select passenger_name, sum(total_amount)
+from tickets t
+inner join bookings b
+on b.book_ref = t.book_ref
+group by passenger_name
+order by 2 desc;
+
+-- 2. Which fare_condition has ALEKSANDR IVANOV used the most?
+-- select * from seats;
+-- select * from tickets;
+-- select * from ticket_flights;
+
+select fare_conditions, count(*)
+from tickets t
+inner join ticket_flights tf
+on t.ticket_no = tf.ticket_no
+and t.passenger_name='ALEKSANDR IVANOV'
+group by fare_conditions
+order by 2 desc;
+
+-- 3. Which title has GEORGE LINTON rented the most often?
+-- select * from customer;
+-- select * from rental;
+-- select * from film;
+-- select * from inventory; 
+
+select first_name, last_name, title, count(*)
+-- select title, count(*)
+from customer c
+inner join rental r
+on c.customer_id = r.customer_id
+inner join inventory i
+on i.inventory_id = r.inventory_id
+inner join film f
+on f.film_id = i.film_id
+-- and (first_name='GEORGE' and last_name='LINTON')
+where first_name='GEORGE' and last_name='LINTON'
+group by title, first_name, last_name
+order by 4 desc;
