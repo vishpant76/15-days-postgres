@@ -99,3 +99,7 @@ ORDER BY
 - But the order matters in case of LEFT/RIGHT outer JOIN between multiple tables.
 
 - JOINS challenge: Which customers are from Brazil? Get the first, lastname, email, country for all customers of Brazil. See the [day-6-sql-part-2](https://github.com/vishpant76/15-days-postgres/blob/main/Section-6/day-6-sql-part-2.sql) file for solution. It doesn't matter if you use INNER or LEFT join here as there are no customers that do not have an associated address_id. Refer [this discussion](https://chat.openai.com/c/17ef4d20-b5ae-4b22-aa10-8d14c0d8dfc1) for more.
+
+- Few more challenges were covered at the end of Day 6. Refer the SQL-Part2 file for them.
+
+- [Day 6 - SQL - Part-1](https://github.com/vishpant76/15-days-postgres/blob/main/Section-6/day-6-sql-part-1.sql) and [Day 6 - SQL - Part-2](https://github.com/vishpant76/15-days-postgres/blob/main/Section-6/day-6-sql-part-2.sql).
