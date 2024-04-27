@@ -9,4 +9,6 @@
 
 ---
 
+- Subqueries in WHERE: Refer the challenges in file [day-7-sql-part-1](https://github.com/vishpant76/15-days-postgres/blob/main/Section-7/day-7-sql-part-1.sql).
+
 - 
