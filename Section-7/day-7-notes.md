@@ -11,4 +11,14 @@
 
 - Subqueries in WHERE: Refer the challenges in file [day-7-sql-part-1](https://github.com/vishpant76/15-days-postgres/blob/main/Section-7/day-7-sql-part-1.sql).
 
+- Subqueries in FROM and SELECT: Refer the challenges in file [day-7-sql-part-2](https://github.com/vishpant76/15-days-postgres/blob/main/Section-7/day-7-sql-part-2.sql). Also added to Anki deck.
+
+- Correlated Subqueries: Subquery gets evaluated for every single row. Subquery does not work independently. Because we are referencing our outer query in the WHERE clause of subquery (e1.city=e2.city).
+
+![image](https://github.com/vishpant76/15-days-postgres/assets/18080911/8d19b593-07d6-468a-ae76-62c37a81af7f)
+
+---
+
+- [More explanation on working of Correlated Subqueries](https://chat.openai.com/c/53644251-09a3-49a8-88bb-4c931dd1422e). [Shared Link](https://chat.openai.com/share/1b294a2d-a989-47f0-a274-9e185d657990)
+
 - 
