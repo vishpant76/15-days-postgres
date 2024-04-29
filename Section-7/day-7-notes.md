@@ -21,4 +21,18 @@
 
 - [More explanation on working of Correlated Subqueries](https://chat.openai.com/c/53644251-09a3-49a8-88bb-4c931dd1422e). [Shared Link](https://chat.openai.com/share/1b294a2d-a989-47f0-a274-9e185d657990)
 
-- 
+- Correlated subqueries can't be used in FROM clause, but can be used in WHERE and SELECT clause. Check out the SQL files in Day 7 for challenges.
+
+- The Third Challenge in the video "Solution: More Challenges" in Day 7 has confusing wording. The problem asked for the "highest payment amount for each customer's first name", but in solution the instructor used the condition on customer_id instead of first_name.
+
+```
+select c1.customer_id, c1.first_name, p1.payment_id, amount
+from customer c1
+inner join payment p1
+on p1.customer_id = c1.customer_id
+where amount = (select max(amount) from payment p2
+			   where p1.customer_id=p2.customer_id)
+order by 1;
+```
+
+- [Day 7 SQL-1](https://github.com/vishpant76/15-days-postgres/blob/main/Section-7/day-7-sql-part-1.sql) and [Day 7 SQL-2](https://github.com/vishpant76/15-days-postgres/blob/main/Section-7/day-7-sql-part-2.sql).
