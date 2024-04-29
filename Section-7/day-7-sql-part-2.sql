@@ -85,6 +85,7 @@ where replacement_cost = (select max(replacement_cost) from film f2
 -- How would you solve this if you were not to see the payment_id ?
 -- select * from payment;
 -- select * from customer;
+-- This solution is questionable as it does not quite align with the problem statement of using first_name; it uses customer_id.
 
 select c1.customer_id, c1.first_name, p1.payment_id, amount
 from customer c1
