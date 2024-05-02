@@ -19,4 +19,22 @@
 
 ---
 
-- 
+- MATERIALIZED VIEW: Combines the benefits of having a physical table as well as VIEWS: Data is stored physically, and faster performance is ensured (even if the underlying query is complex). Periodic refresh is needed, as the data can't update automatically in MV.
+
+![image](https://github.com/vishpant76/15-days-postgres/assets/18080911/4b429f4f-1276-4f63-95a4-339b1f115023)
+
+---
+
+- Managing Views - Similar to other DDL operations. CREATE or REPLACE is only possible with Views and not MVs.
+
+![image](https://github.com/vishpant76/15-days-postgres/assets/18080911/7145719e-ba93-4fce-9442-fbb762b7fecc)
+
+---
+
+- Alter View:
+
+![image](https://github.com/vishpant76/15-days-postgres/assets/18080911/0fa62360-207b-4459-974b-0ebbfb6db2cb)
+
+---
+
+- IMPORT and EXPORT
