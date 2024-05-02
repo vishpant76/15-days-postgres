@@ -101,3 +101,113 @@ select * from customer_spendings;
 -- VIEW - Challenge
 -- Create a view called films_category that shows a list of the film titles including their title, length and category name ordered descendingly by the length.
 -- Filter the results to only the movies in the category 'Action' and 'Comedy'.
+-- select * from film_category;
+-- select * from film;
+-- select * from category;
+
+-- begin;
+create view films_category
+as
+select title, length, name
+from film f
+inner join film_category fc
+on fc.film_id = f.film_id
+inner join category c
+on c.category_id = fc.category_id
+where name in ('Action', 'Comedy')
+order by length desc;
+-- end;
+
+-- select * from films_category;
+
+-- Materialized View
+create materialized view mv_films_category
+as
+select title, length, name
+from film f
+inner join film_category fc
+on fc.film_id = f.film_id
+inner join category c
+on c.category_id = fc.category_id
+where name in ('Action', 'Comedy')
+order by length desc;
+
+
+-- select * from mv_films_category;
+-- let's make an update to the film table
+update film
+set length = 192
+where title = 'SATURN NAME';
+
+-- If we query the materialized view now, the update made above will not be reflected because we have not refreshed the materialized view yet!
+REFRESH MATERIALIZED VIEW mv_films_category;
+
+-- Now the changes will reflect in MV:
+select * from mv_films_category;
+
+
+-- Managing Views
+CREATE or REPLACE VIEW <name>
+as new_query
+
+-- Challenge
+-- First creating view:
+CREATE VIEW v_customer_info
+AS
+SELECT cu.customer_id,
+    cu.first_name || ' ' || cu.last_name AS name,
+    a.address,
+    a.postal_code,
+    a.phone,
+    city.city,
+    country.country
+     FROM customer cu
+     JOIN address a ON cu.address_id = a.address_id
+     JOIN city ON a.city_id = city.city_id
+     JOIN country ON city.country_id = country.country_id
+ORDER BY customer_id;
+
+select * from v_customer_info;
+
+-- Rename the view to v_customer_information:
+ALTER VIEW v_customer_info
+RENAME TO v_customer_information;
+
+-- Rename the customer_id column to c_id.
+ALTER VIEW v_customer_information
+RENAME column customer_id TO c_id;
+
+select * from v_customer_information;
+
+-- Add also the initial column as the last column to the view by replacing the view.
+
+CREATE or REPLACE VIEW v_customer_information
+AS
+SELECT cu.customer_id as c_id,
+    cu.first_name || ' ' || cu.last_name AS name,
+    a.address,
+    a.postal_code,
+    a.phone,
+    city.city,
+    country.country,
+	concat(LEFT(cu.first_name,1), LEFT(cu.last_name,1)) as initials
+     FROM customer cu
+     JOIN address a ON cu.address_id = a.address_id
+     JOIN city ON a.city_id = city.city_id
+     JOIN country ON city.country_id = country.country_id
+ORDER BY customer_id;
+
+-- IMPORT and EXPORT
+-- First create the table where the data will be imported from the external source.
+CREATE TABLE sales (
+transaction_id SERIAL PRIMARY KEY,
+customer_id INT,
+payment_type VARCHAR(20),
+creditcard_no VARCHAR(20),
+cost DECIMAL(5,2),
+quantity INT,
+price DECIMAL(5,2));
+
+select * from sales;
+
+-- Now right-click on the table from the left pane and go to Import/Export data option, where you can import/export data from/to file.
