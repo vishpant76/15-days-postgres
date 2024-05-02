@@ -38,3 +38,5 @@
 ---
 
 - IMPORT and EXPORT
+
+- [Day 10 SQL](https://github.com/vishpant76/15-days-postgres/blob/main/Section-10/day-10-sql.sql)
