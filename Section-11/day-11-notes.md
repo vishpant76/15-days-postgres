@@ -18,4 +18,9 @@
 
 - Some useful Questions added to anki deck.
 
-- 
+- OVER() with ORDER BY: A good example of this usage is calculating running totals. Anki Card added. Refer [CG discussion](https://chat.openai.com/c/6cba7a91-e38a-4521-8db8-3f1e3d9b6266) for more.
+
+- RANK() - An aggregate window function, ranking is created based on the particular ORDER.
+- DENSE_RANK()
+  
+- Window Functions are not allowed in WHERE. It's because the Window function will be evaluated AFTER the WHERE clause. But we can use a subquery to do that.
