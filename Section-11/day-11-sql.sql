@@ -128,3 +128,69 @@ left join payment p
 on c.id = p.customer_id	
 group by name, country) as a -- this alias is optional
 where rank BETWEEN 1 and 3;
+
+
+-- FIRST_VALUE
+select name, country, count(*), FIRST_VALUE(name) over(partition by country order by count(*) desc) as rank 
+from customer_list c
+left join payment p
+on c.id = p.customer_id	
+group by name, country;
+
+select name, country, count(*), FIRST_VALUE(count(*)) over(partition by country order by count(*) asc) as rank 
+from customer_list c
+left join payment p
+on c.id = p.customer_id	
+group by name, country;
+
+-- Create a new column in the above, showing: what is the difference w.r.t the first customer?
+select name, country, count(*), FIRST_VALUE(count(*)) over(partition by country order by count(*) asc) as firstValue,
+count(*) - FIRST_VALUE(count(*)) over(partition by country order by count(*) asc) as difference
+from customer_list c 
+left join payment p
+on c.id = p.customer_id
+group by name, country;
+
+-- LEAD() and LAG()
+-- LEAD() - Retrieves the value that comes afterwards, sort of like next value w.r.t to the current value of the column of the current row in a particular partition. 
+select name, country, count(*), LEAD(name) over(partition by country order by count(*) asc) as rank 
+from customer_list c
+left join payment p
+on c.id = p.customer_id	
+group by name, country;
+
+
+select name, country, count(*), LEAD(count(*)) over(partition by country order by count(*) asc) as rank 
+from customer_list c
+left join payment p
+on c.id = p.customer_id	
+group by name, country;
+
+-- Doing useful calculations with LEAD()
+
+select name, country, count(*), LEAD(count(*)) over(partition by country order by count(*) asc) as leadValue,
+LEAD(count(*)) over(partition by country order by count(*) asc) - count(*)
+from customer_list c
+left join payment p
+on c.id = p.customer_id	
+group by name, country;
+
+-- LAG() - Similar to LEAD(), but this time we get previous value.
+select name, country, count(*), LAG(count(*)) over(partition by country order by count(*) asc) as lagValue,
+LAG(count(*)) over(partition by country order by count(*) asc) - count(*)
+from customer_list c
+left join payment p
+on c.id = p.customer_id	
+group by name, country;
+
+-- Challenge - LEAD(), LAG()
+-- Write a query that returns the revenue of the day and the revenue of the previous day. And also the difference between the current day and previous day's revenue.
+-- Afterwards calculate the percentage growth compared to the previous day.
+select * from payment;
+
+select sum(amount), date(payment_date) as day, LAG(sum(amount)) over(order by date(payment_date)) as previous_day, 
+sum(amount) - LAG(sum(amount)) over(order by date(payment_date)) as difference,
+round((sum(amount) - LAG(sum(amount)) over(order by date(payment_date))) / LAG(sum(amount)) over(order by date(payment_date))*100, 2) as percentage_growth
+from payment
+group by date(payment_date)
+-- order by sum(amount);
