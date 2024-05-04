@@ -24,3 +24,11 @@
 - DENSE_RANK()
   
 - Window Functions are not allowed in WHERE. It's because the Window function will be evaluated AFTER the WHERE clause. But we can use a subquery to do that.
+
+- FIRST_VALUE() - see anki/SQL file for e.g.
+
+- LEAD() - The value that comes afterwards, sort of like next value w.r.t to the current value of the column of the current row in a particular partition.
+
+- LEAD, LAG challenge was pretty advanced. See SQL file and anki deck.
+
+- [Day - 11 SQL](https://github.com/vishpant76/15-days-postgres/blob/main/Section-11/day-11-sql.sql).
