@@ -35,3 +35,54 @@ group by
 	(first_name, last_name),
 	(first_name, last_name, staff_id))
 order by 1,2;
+
+
+-- ROLLUP
+select
+'Q' || to_char(payment_date, 'Q') as quarter,
+EXTRACT(month from payment_date) as month,
+date(payment_date), sum(amount)
+from payment
+group by
+rollup(
+'Q' || to_char(payment_date, 'Q'),
+EXTRACT(month from payment_date),
+date(payment_date)
+)
+order by 1,2,3;
+
+-- Challenge - Write a query that calculates a booking amount rollup for the hierarchy of quarter, week in month and day.
+-- select * from bookings;
+select
+'Q' || to_char(book_date, 'Q') as quarter,
+EXTRACT(month from book_date) as month,
+to_char(book_date, 'w') as week_in_month,
+date(book_date),
+sum(total_amount)
+from bookings
+group by
+rollup(
+	'Q' || to_char(book_date, 'Q'),
+	EXTRACT(month from book_date),
+	to_char(book_date, 'w'),
+	date(book_date)
+)
+order by 1,2,3,4;
+
+-- CUBE
+-- select * from payment;
+select customer_id, staff_id, date(payment_date),
+sum(amount)
+from payment
+group by
+cube(
+	customer_id,
+	staff_id, 
+	date(payment_date)
+	)
+order by 1,2,3;
+
+-- Challenge: Write a query that returns all grouping sets in all combinations of customer_id, date and title with the aggregation of the payment amount.
+select * from payment;
+select * from customer_list;
+select, customer_id, date(payment_date),  
