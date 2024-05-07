@@ -12,4 +12,10 @@
 
 ---
 
-- 
+- Self Join - standard join with itself.
+
+- Cross Join - Cartesian product. To get all possible combinations of rows of two tables.
+
+- Natural Join - Automatically joins using columns with the same column name.
+
+- [Day-12-SQL](https://github.com/vishpant76/15-days-postgres/blob/main/Section-12/day-12-sql.sql)
