@@ -82,7 +82,71 @@ cube(
 	)
 order by 1,2,3;
 
--- Challenge: Write a query that returns all grouping sets in all combinations of customer_id, date and title with the aggregation of the payment amount.
-select * from payment;
-select * from customer_list;
-select, customer_id, date(payment_date),  
+-- Challenge: Write a query that returns all grouping sets in all combinations of customer_id, date and title (of film) with the aggregation of the payment amount.
+-- How do you order the output to get that desired result?
+
+select p.customer_id, date(payment_date), f.title, sum(amount)
+from payment p
+left join rental r
+on p.rental_id = r.rental_id
+left join inventory i
+on i.inventory_id = r.inventory_id
+left join film f
+on f.film_id = i.film_id
+group by
+cube(
+	p.customer_id,
+	date(payment_date),
+	title)
+order by 1,2,3;
+
+-- SELF JOINS
+CREATE TABLE employee (
+	employee_id INT,
+	name VARCHAR(50),
+	manager_id INT);
+
+INSERT INTO employee 
+VALUES
+	(1, 'Liam Smith', NULL),
+	(2, 'Oliver Brown', 1),
+	(3, 'Elijah Jones', 1),
+	(4, 'William Miller', 1),
+	(5, 'James Davis', 2),
+	(6, 'Olivia Hernandez', 2),
+	(7, 'Emma Lopez', 2),
+	(8, 'Sophia Andersen', 2),
+	(9, 'Mia Lee', 3),
+	(10, 'Ava Robinson', 3);
+
+select * from employee;
+
+-- Using self join
+select e.employee_id, e.name as employee, m.name as manager, m2.name as manager_of_manager from employee e
+left join employee m
+on e.manager_id = m.employee_id
+left join employee m2
+on m.manager_id = m2.employee_id;
+
+-- Find all the pairs of films with the same length!
+-- select * from film;
+
+select f1.title, f2.title, f1.length
+from film f1
+left join film f2
+on f1.length = f2.length
+where f1.title != f2.title
+order by length desc;
+
+-- CROSS JOIN
+select staff_id, store.store_id, last_name
+from staff
+cross join store;
+
+-- Natural join
+select * from payment
+natural left join customer;
+
+-- with address table
+select * from customer
+natural inner join address;
