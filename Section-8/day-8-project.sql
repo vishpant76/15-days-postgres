@@ -221,3 +221,66 @@ from payment
 group by date(payment_date)
 	)
 	where extract(dow from date)=0;
+
+-- Challenge 11
+/*
+Level: Difficult to very difficult
+Topic: Correlated subquery
+Task: Create a list of movies - with their length and their replacement cost - that are longer than the average length in each replacement cost group.
+Question: Which two movies are the shortest on that list and how long are they?
+Answer: CELEBRITY HORN and SEATTLE EXPECTATIONS with 110 minutes.
+*/
+-- select * from film;
+select title, length, replacement_cost
+from film f1
+where length > (select avg(length)
+			   from film f2
+			   where f1.replacement_cost = f2.replacement_cost)
+order by 2;
+
+-- Challenge 12 - well done!
+/*
+Level: Very difficult
+Topic: Uncorrelated subquery
+Task: Create a list that shows the "average customer lifetime value" grouped by the different districts.
+Example:
+If there are two customers in "District 1" where one customer has a total (lifetime) spent of $1000 and the second customer has a total spent of $2000 then the "average customer lifetime spent" in this district is $1500.
+So, first, you need to calculate the total per customer and then the average of these totals per district.
+Question: Which district has the highest average customer lifetime value?
+Answer: Saint-Denis with an average customer lifetime value of 216.54.
+*/
+select * from customer;
+select * from payment;
+select * from address;
+
+select sum(amount) from customer c
+inner join payment p
+on c.customer_id = p.customer_id
+inner join address a
+on c.address_id = a.address_id
+
+select district, round(avg(total),2)
+from (
+	select c.customer_id, c.address_id, sum(amount) as total from customer c
+	inner join payment p
+	on c.customer_id = p.customer_id
+	group by c.customer_id) cp
+inner join address a
+on cp.address_id = a.address_id
+group by district
+order by 2 desc;
+
+-- Challenge 13
+/*
+Level: Very difficult
+Topic: Correlated query
+Task: Create a list that shows all payments including the payment_id, amount, and the film category (name) plus the total amount that was made in this category. Order the results ascendingly by the category (name) and as second order criterion by the payment_id ascendingly.
+Question: What is the total revenue of the category 'Action' and what is the lowest payment_id in that category 'Action'?
+Answer: Total revenue in the category 'Action' is 4375.85 and the lowest payment_id in that category is 16055.
+*/
+select * from payment;
+-- select * from customer;
+select * from film;
+select * from film_category;
+select * from category;
+select * from rental;
