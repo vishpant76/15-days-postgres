@@ -277,10 +277,90 @@ Topic: Correlated query
 Task: Create a list that shows all payments including the payment_id, amount, and the film category (name) plus the total amount that was made in this category. Order the results ascendingly by the category (name) and as second order criterion by the payment_id ascendingly.
 Question: What is the total revenue of the category 'Action' and what is the lowest payment_id in that category 'Action'?
 Answer: Total revenue in the category 'Action' is 4375.85 and the lowest payment_id in that category is 16055.
+*/	
+-- select * from payment;
+-- select * from film;
+-- select * from film_category;
+-- select * from category;
+-- select * from rental;
+-- select * from inventory;
+
+/*
+select title, payment_id, amount, name,
+(select sum(amount)
+from payment p
+inner join rental r
+on p.rental_id = r.rental_id
+inner join inventory i
+on r.inventory_id = i.inventory_id
+inner join film f
+on f.film_id = i.film_id
+inner join film_category fc
+on f.film_id = fc.film_id
+inner join category c2
+on c2.category_id = fc.category_id
+where c1.name=c2.name)
+
+from payment p
+inner join rental r
+on p.rental_id = r.rental_id
+inner join inventory i
+on r.inventory_id = i.inventory_id
+inner join film f
+on f.film_id = i.film_id
+inner join film_category fc
+on f.film_id = fc.film_id
+inner join category c1
+on c1.category_id = fc.category_id
+order by name;
 */
-select * from payment;
--- select * from customer;
-select * from film;
-select * from film_category;
-select * from category;
-select * from rental;
+
+-- Formatted Query (same as above)
+SELECT
+  title,
+  payment_id,
+  amount,
+  name,
+  (
+    SELECT
+      SUM(amount)
+    FROM
+      payment p
+      INNER JOIN rental r ON p.rental_id=r.rental_id
+      INNER JOIN inventory i ON r.inventory_id=i.inventory_id
+      INNER JOIN film f ON f.film_id=i.film_id
+      INNER JOIN film_category fc ON f.film_id=fc.film_id
+      INNER JOIN category c1 ON c1.category_id=fc.category_id
+    WHERE
+      c1.name=c2.name
+  )
+FROM
+  payment p
+  INNER JOIN rental r ON p.rental_id=r.rental_id
+  INNER JOIN inventory i ON r.inventory_id=i.inventory_id
+  INNER JOIN film f ON f.film_id=i.film_id
+  INNER JOIN film_category fc ON f.film_id=fc.film_id
+  INNER JOIN category c2 ON c2.category_id=fc.category_id
+ORDER BY
+  name;
+ 
+-- Solution to above challenge using Window functions
+SELECT
+  film.title,
+  payment_id,
+  amount,
+  category.name AS film_category,
+  SUM(amount) OVER (
+    PARTITION BY
+      category.name
+  )
+FROM
+  payment
+  LEFT JOIN rental ON payment.rental_id=rental.rental_id
+  LEFT JOIN inventory ON rental.inventory_id=inventory.inventory_id
+  JOIN film ON inventory.film_id=film.film_id
+  JOIN film_category ON film.film_id=film_category.film_id
+  JOIN category ON film_category.category_id=category.category_id
+ORDER BY
+  category.name ASC,
+  payment_id ASC;
