@@ -32,4 +32,31 @@
 
 ---
 
-- 
+- Indexes: Although we see the data as a tabular representation when we query something, in the background, the data is actually stored in blocks; it is placed in rows, wherever there is space available. Data is stored without any particular order. So this is not so efficient when we read the data. Full table scan - read-inefficent. Using indexes on a column, allows us to avoid a full table scan.
+
+![image](https://github.com/vishpant76/15-days-postgres/assets/18080911/76359fb9-aa39-43c9-b39e-86209a945692)
+
+---
+
+- A few more points:
+
+![image](https://github.com/vishpant76/15-days-postgres/assets/18080911/39d9860c-1a88-4ef4-90a0-63caeb0db4aa)
+
+---
+
+- B-tree indexes - [Page 616 in the ppt](https://drive.google.com/drive/u/0/folders/1kodcTUSkHaby0EvKZ64hvgi9eMGbF6hI) - Usually applied on PKs, because PKs will have high cardinality, i.e. unique values.
+> when you define a primary key on a table, an index is created automatically to enforce the uniqueness constraint and to speed up queries that use the primary key column(s). This index is called a "primary key index."
+
+- Bitmap index - [Page 617 in the ppt](https://drive.google.com/drive/u/0/folders/1kodcTUSkHaby0EvKZ64hvgi9eMGbF6hI) - Good for low cardinality; for e.g. one column takes only 2-3 different possible values. Basically a mapping is created between the possible column values and the rows where the association exists.
+
+- B-tree and bitmap index guidelines - [Slide 620](https://drive.google.com/drive/u/0/folders/1kodcTUSkHaby0EvKZ64hvgi9eMGbF6hI)
+
+- Don't use indexes on small tables; generally preferred on large tables. Also, they should be created on those columns that are used as filter columns. If a table involves many write operations, then also creating index might be a bad idea.
+
+![image](https://github.com/vishpant76/15-days-postgres/assets/18080911/2803c899-219c-4ecb-9409-f3252c3f0d5e)
+
+---
+
+- Execution Plan - Play around with "Explain" and "Explain Analyze" in PgAdmin, especially when comparing queries with and without indexes.
+
+- [Day-15-SQL](https://github.com/vishpant76/15-days-postgres/blob/main/Section-15/day-15-sql.sql)
